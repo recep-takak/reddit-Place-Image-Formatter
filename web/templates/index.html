@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>r/place Image Formatter</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #18181b; }
+    main { width: min(42rem, calc(100% - 2rem)); background: #27272a; padding: 2rem; border-radius: 1rem; }
+    form { display: grid; gap: 1rem; }
+    input, button { font: inherit; padding: .75rem; }
+    button { background: #ff4500; color: white; border: 0; border-radius: .4rem; cursor: pointer; }
+    .error { background: #7f1d1d; padding: .75rem; border-radius: .4rem; }
+    small { color: #d4d4d8; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>r/place Image Formatter</h1>
+    <p>Pixelate media and match it to the 32-color r/place palette.</p>
+    {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+    <form action="{{ url_for('format_upload') }}" method="post" enctype="multipart/form-data">
+      <label>File <input name="file" type="file" required></label>
+      <label>Logical width <input name="width" type="number" min="1" max="1000" value="64" required></label>
+      <label>Display scale <input name="scale" type="number" min="1" max="50" value="10" required></label>
+      <label><input name="grid" type="checkbox" checked> Draw grid</label>
+      <button type="submit">Format and download</button>
+    </form>
+    <p><small>Supported: {{ formats }}. Upload, pixel, and frame limits are enforced by the server.</small></p>
+  </main>
+</body>
+</html>
