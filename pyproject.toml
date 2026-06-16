@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reddit-place-image-formatter"
+version = "1.0.0"
+description = "Format images, GIFs, and videos for the r/place palette."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [{name = "Recep Takak"}]
+dependencies = [
+  "imageio>=2.34,<3",
+  "imageio-ffmpeg>=0.5,<1",
+  "numpy>=1.24,<3",
+  "opencv-python-headless>=4.8,<5",
+  "Pillow>=10,<12",
+]
+
+[project.optional-dependencies]
+web = ["Flask>=3.0,<4", "gunicorn>=22,<24"]
+dev = ["pytest>=8,<9"]
+
+[project.scripts]
+place-formatter = "cli.main:main"
+
+[tool.setuptools.packages.find]
+include = ["formatter*", "cli*", "web*"]
+
+[tool.setuptools.package-data]
+web = ["templates/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
